@@ -18,28 +18,28 @@ create table Counties (
 create table State_life_expec (
   state varchar(5) not null,
   age double not null,
-  constraint FK_state_code foreign key (state) references States(code)
+  constraint FK_state_code_expec foreign key (state) references States(code)
     on delete cascade
 );
 
 create table County_life_expec (
   cnty varchar(50) not null,
   age double not null,
-  constraint FK_cnty_id foreign key (cnty) references Counties(id)
+  constraint FK_cnty_id_expec foreign key (cnty) references Counties(id)
     on delete cascade
 );
 
 create table State_real_estate (
   state varchar(5) not null,
   price double not null,
-  constraint FK_state_code foreign key (state) references States(code)
+  constraint FK_state_code_estate foreign key (state) references States(code)
     on delete cascade
 );
 
 create table County_real_estate (
   cnty varchar(50) not null,
   price double not null,
-  constraint FK_cnty_id foreign key (cnty) references Counties(id)
+  constraint FK_cnty_id_estate foreign key (cnty) references Counties(id)
     on delete cascade
 );
 
@@ -50,7 +50,7 @@ create table State_vaccinations (
   people_vaccinated int not null,
   people_fully_vaccinated int not null,
   daily_vaccinations int not null,
-  constraint FK_state_code foreign key (state) references States(code)
+  constraint FK_state_code_vacc foreign key (state) references States(code)
     on delete cascade
 );
 
