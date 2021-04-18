@@ -1,4 +1,4 @@
-code,location,date,total_vaccinations,total_distributed,people_vaccinated,people_fully_vaccinated_per_hundred,total_vaccinations_per_hundred,people_fully_vaccinated,people_vaccinated_per_hundred,distributed_per_hundred,daily_vaccinations_raw,daily_vaccinations,daily_vaccinations_per_million,share_doses_used
+state,location,date,total_vaccinations,total_distributed,people_vaccinated,people_fully_vaccinated_per_hundred,total_vaccinations_per_hundred,people_fully_vaccinated,people_vaccinated_per_hundred,distributed_per_hundred,daily_vaccinations_raw,daily_vaccinations,daily_vaccinations_per_million,share_doses_used
 AK,Alaska,2021-04-17,509843,746705,288040,31.63,69.69,231393,39.37,102.07,4983,7732,10569.0,0.6829999999999999
 AL,Alabama,2021-04-17,2280686,3664640,1476162,19.08,46.51,935377,30.11,74.74,35112,30766,6275.0,0.622
 AR,Arkansas,2021-04-17,1585770,2370830,999727,21.07,52.55,636000,33.13,78.56,24034,20800,6892.0,0.669
