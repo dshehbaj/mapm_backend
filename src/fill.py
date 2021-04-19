@@ -1,7 +1,11 @@
+"""
+Python script for generating .sql files from cleaned .csv files
+"""
+
 import csv
+from database import mysqlconnect
 
 def func_1():
-    fields = []
     rows = []
     state_file = csv.reader(open("../data/states.csv", "r"))
     fields = next(state_file)
@@ -19,7 +23,6 @@ def func_1():
         ofile.write(query)
 
 def func_2():
-    fields = []
     rows = []
     state_file = csv.reader(open("../data/counties.csv", "r"))
     fields = next(state_file)
@@ -37,7 +40,6 @@ def func_2():
         ofile.write(query)
 
 def func_3():
-    fields = []
     rows = []
     state_file = csv.reader(open("../data/real_estate/county_prices.csv", "r"))
     fields = next(state_file)
@@ -55,7 +57,6 @@ def func_3():
         ofile.write(query)
 
 def func_4():
-    fields = []
     rows = []
     state_file = csv.reader(open("../data/real_estate/state_prices.csv", "r"))
     fields = next(state_file)
@@ -73,9 +74,9 @@ def func_4():
         ofile.write(query)
 
 def func_5():
-    fields = []
     rows = []
-    state_file = csv.reader(open("../data/life_expectancy/county_life_expectancy.csv", "r"))
+    state_file = csv.reader(
+        open("../data/life_expectancy/county_life_expectancy.csv", "r"))
     fields = next(state_file)
     for row in state_file:
         rows.append(row)
@@ -91,9 +92,9 @@ def func_5():
         ofile.write(query)
 
 def func_6():
-    fields = []
     rows = []
-    state_file = csv.reader(open("../data/life_expectancy/states_life_expectancy.csv", "r"))
+    state_file = csv.reader(
+        open("../data/life_expectancy/states_life_expectancy.csv", "r"))
     fields = next(state_file)
     for row in state_file:
         rows.append(row)
@@ -109,7 +110,6 @@ def func_6():
         ofile.write(query)
 
 def func_7():
-    fields = []
     rows = []
     state_file = csv.reader(open("../data/covid/vaccinations.csv", "r"))
     fields = next(state_file)
@@ -121,7 +121,8 @@ def func_7():
         people_fully_vaccinated_per_hundred, total_vaccinations_per_hundred, \
         people_fully_vaccinated, people_vaccinated_per_hundred, \
         distributed_per_hundred, daily_vaccinations_raw, \
-        daily_vaccinations, daily_vaccinations_per_million, share_doses_used) values "
+        daily_vaccinations, daily_vaccinations_per_million, \
+        share_doses_used) values "
 
     values = ""
     for row in rows:
