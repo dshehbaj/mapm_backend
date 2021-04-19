@@ -29,10 +29,10 @@ def func_2():
     for row in state_file:
         rows.append(row)
 
-    query = "insert into Counties (id, name, state) values "
+    query = "insert into Counties (id, name, state, lat, lng) values "
     values = ""
     for row in rows:
-        values += f'("{row[0]}", "{row[1]}", "{row[2]}"),'
+        values += f'("{row[0]}", "{row[1]}", "{row[2]}", "{row[3]}", "{row[4]}"),'
     query += values
     query = query[:len(query) - 1] + ";"
     with open("../sql/counties_fill.sql", "w") as ofile:

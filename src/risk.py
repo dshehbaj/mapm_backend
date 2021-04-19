@@ -90,7 +90,8 @@ def get_risk(state_code=None):
 
         if (codes):
             query_1 = \
-                f"select id, name, state, price, age from Counties inner join \
+                f"select id, name, state, price, age, lat, lng from \
+                Counties inner join \
                 County_life_expec on Counties.id = County_life_expec.cnty \
                 inner join County_real_estate on \
                 County_life_expec.cnty = County_real_estate.cnty \
@@ -103,7 +104,8 @@ def get_risk(state_code=None):
                 && price >= {realty_range[0]} && price <= {realty_range[1]})"
         else:
             query_1 = \
-                f"select id, name, state, price, age from Counties inner join \
+                f"select id, name, state, price, age, lat, lng from \
+                Counties inner join \
                 County_life_expec on Counties.id = County_life_expec.cnty \
                 inner join County_real_estate on \
                 County_life_expec.cnty = County_real_estate.cnty \

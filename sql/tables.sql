@@ -11,6 +11,8 @@ create table Counties (
   id varchar(50) primary key,
   name varchar(50) not null,
   state varchar(5) not null,
+  lat double,
+  lng double,
   constraint FK_state_code foreign key (state) references States(code)
     on delete cascade
 );
@@ -24,9 +26,7 @@ create table State_life_expec (
 
 create table County_life_expec (
   cnty varchar(50) not null,
-  age double not null,
-  constraint FK_cnty_id_expec foreign key (cnty) references Counties(id)
-    on delete cascade
+  age double not null
 );
 
 create table State_real_estate (
@@ -38,9 +38,7 @@ create table State_real_estate (
 
 create table County_real_estate (
   cnty varchar(50) not null,
-  price double not null,
-  constraint FK_cnty_id_estate foreign key (cnty) references Counties(id)
-    on delete cascade
+  price double not null
 );
 
 create table State_vaccinations (
