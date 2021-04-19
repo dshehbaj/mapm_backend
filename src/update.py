@@ -39,16 +39,17 @@ def update_expectancy():
     data_by_state = data_by_state.reset_index()
     data_by_state.columns = ["state", "age"]
     data_by_state = data_by_state.set_index("state")
-    #data_by_state.to_csv("../data/life_expectancy/states_life_expectancy.csv")
-    data_by_state.to_csv("states_life_expectancy.csv")
+
+    data_by_state.to_csv("../data/life_expectancy/states_life_expectancy.csv")
+
     data_by_county = data_by_county.to_frame()
     data_by_county = data_by_county.reset_index()
     data_by_county.columns = ["state", "name", "age"]
     data_by_county["cnty"] = data_by_county["name"] + " " + data_by_county["state"]
     data_by_county["cnty"] = data_by_county["cnty"].apply(lambda x: x.lower().replace(" ", "-"))
     data_by_county = data_by_county.set_index("cnty")
-    #data_by_county.to_csv("../data/life_expectancy/county_life_expectancy.csv")
-    data_by_county.to_csv("county_life_expectancy.csv")
+
+    data_by_county.to_csv("../data/life_expectancy/county_life_expectancy.csv")
 
 def update_covid():
     state_names = \
@@ -81,11 +82,11 @@ def update_covid():
     vax_df.iloc[:, cols] = vax_df.iloc[:, cols].astype(int)
     vax_df["state"] = state_codes
     vax_df = vax_df.reset_index().set_index(["state"])
-    #vax_df.to_csv("../data/covid/vaccinations.csv")
-    vax_df.to_csv("vaccinations.csv")
+    vax_df.to_csv("../data/covid/vaccinations.csv")
 
 
 
 if __name__ == "__main__":
     update_expectancy()
     update_covid()
+
