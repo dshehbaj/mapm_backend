@@ -15,5 +15,5 @@ app.config["DEBUG"] = True
 def home():
     return "<h1>YOOOOOOOOOdjsf</h1>"
 
-app.run()
-
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=8080)
