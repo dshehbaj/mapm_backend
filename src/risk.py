@@ -1,4 +1,5 @@
 import pymysql
+import math
 from flask import Blueprint, render_template, jsonify, request
 from flask_cors import CORS
 from database import mysqlconnect
@@ -16,6 +17,11 @@ def get_risk(state_code=None):
         level = int(level)
     codes = request.args.get("states")
     realty_range = request.args.get("range")
+    risk = request.args.get("risk")
+    if (risk):
+        risk = int(risk)
+        if risk not in range(0, 101):
+            risk = None
     realty_range = realty_range.split(",")
     map(lambda x: int(x), realty_range)
 
@@ -129,5 +135,10 @@ def get_risk(state_code=None):
         response = data
 
     conn.close()
+    response = sorted(response, key = lambda i: i["risk"])
+    if (risk):
+        items = int((len(response) * (risk)) / 100)
+        items = math.ceil(items)
+        return jsonify(response[:items])
     return jsonify(response)
 
