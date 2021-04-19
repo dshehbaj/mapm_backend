@@ -1,8 +1,10 @@
 import pymysql
 from flask import Blueprint, render_template, jsonify, request
+from flask_cors import CORS
 from database import mysqlconnect
 
 counties = Blueprint("counties", __name__)
+CORS(counties)
 
 @counties.route("/counties/", methods=["GET"])
 @counties.route("/counties/<state_code>/", methods=["GET"])
