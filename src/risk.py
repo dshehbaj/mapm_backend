@@ -59,7 +59,7 @@ def get_risk(state_code=None):
                 state["risk"] = (dem / num) * 10000000
                 risks[state["state"]] = state["risk"]
 
-            print(risks)
+            return jsonify(merge)
 
         else:
             pass
@@ -105,7 +105,7 @@ def get_risk(state_code=None):
                 state["risk"] = (dem / num) * 10000000
                 risks[state["state"]] = state["risk"]
 
-            print(risks)
+            return jsonify(merge)
 
         else:
             pass
