@@ -7,11 +7,10 @@ risk = Blueprint("risk", __name__)
 @risk.route("/risk/", methods=["GET"])
 @risk.route("/risk/<state_code>/", methods=["GET"])
 def get_risk(state_code=None):
-    output = None
     conn = mysqlconnect()
     level = request.args.get("level")
     codes = request.args.get("states")
-    risk = request.args.get("risk")
+    #risk = request.args.get("risk")
     realty_range = request.args.get("range")
     realty_range = realty_range.split(",")
     map(lambda x: int(x), realty_range)
@@ -23,14 +22,17 @@ def get_risk(state_code=None):
             risks = {}
             query_1 = \
                 f"select * from State_real_estate where \
-                price >= {realty_range[0]} && price <= {realty_range[1]} && state in ({codes})"
+                price >= {realty_range[0]} && price <= \
+                {realty_range[1]} && state in ({codes})"
             query_2 = \
                 f"select * from State_life_expec where state in \
-                    (select state from State_real_estate where price >= {realty_range[0]} \
+                    (select state from State_real_estate \
+                    where price >= {realty_range[0]} \
                     && price <= {realty_range[1]} && state in ({codes}))"
             query_3 = \
                 f"select * from State_vaccinations where state in \
-                    (select state from State_real_estate where price >= {realty_range[0]} \
+                    (select state from State_real_estate \
+                    where price >= {realty_range[0]} \
                     && price <= {realty_range[1]} && state in ({codes}))"
             cur.execute(query_1)
             realty = cur.fetchall()
@@ -59,10 +61,46 @@ def get_risk(state_code=None):
                 state["risk"] = (dem / num) * 10000000
                 risks[state["state"]] = state["risk"]
 
+            conn.close()
             return jsonify(merge)
 
         else:
-            pass
+            merge = []
+            risks = {}
+            covid_score_state = {}
+            query_1 = \
+                f"select id, name, state, price, age from Counties inner join \
+                County_life_expec on Counties.id = County_life_expec.cnty \
+                inner join County_real_estate on \
+                County_life_expec.cnty = County_real_estate.cnty \
+                where state in ({codes}) && \
+                price >= {realty_range[0]} && price <= {realty_range[1]}"
+            query_2 = \
+                f"select * from State_vaccinations where state in \
+                (select state from Counties inner join \
+                County_real_estate on id = cnty where state in ({codes}) \
+                && price >= {realty_range[0]} && price <= {realty_range[1]})"
+
+
+            cur.execute(query_1)
+            data = cur.fetchall()
+
+            cur.execute(query_2)
+            state_covid = cur.fetchall()
+
+            for state in state_covid:
+                num = state["total_vaccinations_per_hundred"] * \
+                    state["daily_vaccinations_per_million"]
+                dem = (state["people_vaccinated_per_hundred"] - \
+                     state["people_fully_vaccinated_per_hundred"])
+                covid_score_state[state["state"]] = dem / num
+
+            for cnty in data:
+                cnty["risk"] = (covid_score_state[cnty["state"]] / cnty["age"]) * 10000000
+
+            conn.close()
+            return jsonify(data)
+
     else:
         if (not level):
             print("\n\n\n\n\n here \n\n\n\n\n\n")
@@ -72,11 +110,13 @@ def get_risk(state_code=None):
                 price >= {realty_range[0]} && price <= {realty_range[1]}"
             query_2 = \
                 f"select * from State_life_expec where state in \
-                    (select state from State_real_estate where price >= {realty_range[0]} \
+                    (select state from State_real_estate \
+                    where price >= {realty_range[0]} \
                     && price <= {realty_range[1]})"
             query_3 = \
                 f"select * from State_vaccinations where state in \
-                    (select state from State_real_estate where price >= {realty_range[0]} \
+                    (select state from State_real_estate \
+                    where price >= {realty_range[0]} \
                     && price <= {realty_range[1]})"
             cur.execute(query_1)
             realty = cur.fetchall()
@@ -105,10 +145,41 @@ def get_risk(state_code=None):
                 state["risk"] = (dem / num) * 10000000
                 risks[state["state"]] = state["risk"]
 
+            conn.close()
             return jsonify(merge)
 
         else:
-            pass
+            merge = []
+            risks = {}
+            covid_score_state = {}
+            query_1 = \
+                f"select id, name, state, price, age from Counties inner join \
+                County_life_expec on Counties.id = County_life_expec.cnty \
+                inner join County_real_estate on \
+                County_life_expec.cnty = County_real_estate.cnty \
+                where price >= {realty_range[0]} && price <= {realty_range[1]}"
+            query_2 = \
+                f"select * from State_vaccinations where state in \
+                (select state from Counties inner join \
+                County_real_estate on id = cnty \
+                where price >= {realty_range[0]} && price <= {realty_range[1]})"
 
-    conn.close()
-    return jsonify(output)
+
+            cur.execute(query_1)
+            data = cur.fetchall()
+
+            cur.execute(query_2)
+            state_covid = cur.fetchall()
+
+            for state in state_covid:
+                num = state["total_vaccinations_per_hundred"] * \
+                    state["daily_vaccinations_per_million"]
+                dem = (state["people_vaccinated_per_hundred"] - \
+                     state["people_fully_vaccinated_per_hundred"])
+                covid_score_state[state["state"]] = dem / num
+
+            for cnty in data:
+                cnty["risk"] = (covid_score_state[cnty["state"]] / cnty["age"]) * 10000000
+
+            conn.close()
+            return jsonify(data)
