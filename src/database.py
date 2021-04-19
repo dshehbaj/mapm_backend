@@ -5,7 +5,8 @@ def mysqlconnect():
         host="localhost",
         user="shehbaj",
         password="",
-        db="mapm"
+        db="mapm",
+        cursorclass=pymysql.cursors.DictCursor
     )
     cur = conn.cursor()
     cur.execute("select @@version")
