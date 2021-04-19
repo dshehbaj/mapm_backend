@@ -10,8 +10,8 @@ def mysqlconnect():
     )
     cur = conn.cursor()
     cur.execute("select @@version")
-    output = cur.fetchall()
-    print(output)
+    #output = cur.fetchall()
+    #print(output)
     return conn
 
 if __name__ == "__main__":
