@@ -7,8 +7,6 @@ def func_1():
     fields = next(state_file)
     for row in state_file:
         rows.append(row)
-    #print(fields)
-    #print(rows)
 
     query = "insert into States (code, name) values "
     values = ""
@@ -27,8 +25,6 @@ def func_2():
     fields = next(state_file)
     for row in state_file:
         rows.append(row)
-    #print(fields)
-    #print(rows)
 
     query = "insert into Counties (id, name, state) values "
     values = ""
@@ -47,8 +43,6 @@ def func_3():
     fields = next(state_file)
     for row in state_file:
         rows.append(row)
-    #print(fields)
-    #print(rows)
 
     query = "insert into County_real_estate (cnty, price) values "
     values = ""
@@ -67,8 +61,6 @@ def func_4():
     fields = next(state_file)
     for row in state_file:
         rows.append(row)
-    #print(fields)
-    #print(rows)
 
     query = "insert into State_real_estate (state, price) values "
     values = ""
@@ -87,8 +79,6 @@ def func_5():
     fields = next(state_file)
     for row in state_file:
         rows.append(row)
-    #print(fields)
-    #print(rows)
 
     query = "insert into County_life_expec (cnty, age) values "
     values = ""
@@ -107,8 +97,6 @@ def func_6():
     fields = next(state_file)
     for row in state_file:
         rows.append(row)
-    #print(fields)
-    #print(rows)
 
     query = "insert into State_life_expec (state, age) values "
     values = ""
@@ -127,27 +115,33 @@ def func_7():
     fields = next(state_file)
     for row in state_file:
         rows.append(row)
-    #print(fields)
-    #print(rows)
 
     query = "insert into State_vaccinations \
         (state, total_vaccinations, total_distributed, people_vaccinated, \
-        people_fully_vaccinated, daily_vaccinations) values "
+        people_fully_vaccinated_per_hundred, total_vaccinations_per_hundred, \
+        people_fully_vaccinated, people_vaccinated_per_hundred, \
+        distributed_per_hundred, daily_vaccinations_raw, \
+        daily_vaccinations, daily_vaccinations_per_million, share_doses_used) values "
+
     values = ""
     for row in rows:
         values += \
             f'("{row[0]}", "{row[3]}", "{row[4]}", \
-            "{row[5]}", "{row[8]}", "{row[12]}"),'
+            "{row[5]}", "{row[6]}", "{row[7]}", \
+            "{row[8]}", "{row[9]}", "{row[10]}", \
+            "{row[11]}", "{row[12]}", "{row[13]}", \
+            "{row[14]}"),'
     query += values
     query = query[:len(query) - 1] + ";"
     with open("../sql/state_covid_vacc.sql", "w") as ofile:
         ofile.write("use mapm;")
         ofile.write(query)
 
-func_1()
-func_2()
-func_3()
-func_4()
-func_5()
-func_6()
-func_7()
+if __name__ == "__main__":
+    func_1()
+    func_2()
+    func_3()
+    func_4()
+    func_5()
+    func_6()
+    func_7()

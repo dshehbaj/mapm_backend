@@ -48,8 +48,15 @@ create table State_vaccinations (
   total_vaccinations int not null,
   total_distributed int not null,
   people_vaccinated int not null,
+  people_fully_vaccinated_per_hundred double not null,
+  total_vaccinations_per_hundred double not null,
   people_fully_vaccinated int not null,
+  people_vaccinated_per_hundred double not null,
+  distributed_per_hundred double not null,
+  daily_vaccinations_raw int not null,
   daily_vaccinations int not null,
+  daily_vaccinations_per_million double not null,
+  share_doses_used double not null,
   constraint FK_state_code_vacc foreign key (state) references States(code)
     on delete cascade
 );
