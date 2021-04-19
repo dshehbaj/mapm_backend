@@ -5,14 +5,30 @@ from database import mysqlconnect
 states = Blueprint("states", __name__)
 
 @states.route("/states/", methods=["GET"])
-def get_all_states():
+@states.route("/states/<state_code>/", methods=["GET"])
+def get_states(state_code=None):
     output = None
     conn = mysqlconnect()
-    cur = conn.cursor()
-    cur.execute("select * from States")
-    output = cur.fetchall()
+    codes = request.args.get("states")
+    if (state_code):
+        cur = conn.cursor()
+        query = f"select * from States where code='{state_code}';"
+        cur.execute(query)
+        output = cur.fetchall()
+    elif (codes):
+        cur = conn.cursor()
+        query = f"select * from States where code in ({codes});"
+        cur.execute(query)
+        output = cur.fetchall()
+    else:
+        cur = conn.cursor()
+        query = f"select * from States;"
+        cur.execute(query)
+        output = cur.fetchall()
     conn.close()
+    print(jsonify(output))
     return jsonify(output)
+
 
 @states.route("/states/realty/", methods=["GET"])
 @states.route("/states/realty/<state_code>/", methods=["GET"])
